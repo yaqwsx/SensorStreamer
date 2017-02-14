@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SensorStreamer</string>
+    <string name="manage_connections">Manage Connections</string>
+    <string name="manage_packets">Manage Packets</string>
+    <string name="about">About</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
 </resources>
