@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">SensorStreamer</string>
+    <string name="stream">Stream</string>
     <string name="manage_connections">Manage Connections</string>
     <string name="manage_packets">Manage Packets</string>
     <string name="about">About</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
