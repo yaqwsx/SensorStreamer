@@ -3,7 +3,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_stream"
-            android:title="@string/stream" />
+            android:title="@string/stream"
+            android:checked="true" />
         <item
             android:id="@+id/nav_connections"
             android:title="@string/manage_connections" />

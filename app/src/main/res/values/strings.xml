@@ -6,7 +6,28 @@
     <string name="about">About</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_connection">Add Connection</string>
+    <string name="add_packet">Add Packet</string>
+    <string name="no_packets">No packets</string>
+    <string name="no_connections">No connections</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="connection_name">Connection name</string>
+    <string name="connection_type">Connection type</string>
+    <string name="new_connection">New Connection</string>
+    <string name="edit_connection">Edit Connection</string>
+    <string name="save_connection">Save Connection</string>
+    <string name="choose_type">Choose type</string>
+    <string name="tcp_server">TCP server</string>
+    <string name="tcp_client">TCP client</string>
+    <string name="json">JSON</string>
+    <string name="binary">Binary</string>
+    <string name="packet_name">Packet name</string>
+    <string name="packet_type">Packet type</string>
+    <string name="new_packet">New packet</string>
+    <string name="edit_packet">Edit packet</string>
+    <string name="save_packet">Save packet</string>
+    <string name="packets_overview">Packets overview</string>
+    <string name="connections_overview">Connections overview</string>
+    <string name="streaming">Streaming</string>
 </resources>
