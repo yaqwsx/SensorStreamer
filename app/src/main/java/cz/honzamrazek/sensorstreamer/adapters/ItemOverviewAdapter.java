@@ -29,7 +29,24 @@ public class ItemOverviewAdapter<T extends Descriptionable> extends ArrayAdapter
         TextView description = (TextView) convertView.findViewById(R.id.description);
 
         name.setText(conn.getName());
-        description.setText(conn.getDescription());
+        description.setText(conn.getDescription(getContext()));
+
+        return convertView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        T conn = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.item_overview, parent, false);
+        }
+
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView description = (TextView) convertView.findViewById(R.id.description);
+
+        name.setText(conn.getName());
+        description.setText(conn.getDescription(getContext()));
 
         return convertView;
     }

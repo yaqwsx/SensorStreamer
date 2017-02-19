@@ -1,5 +1,7 @@
 package cz.honzamrazek.sensorstreamer.models;
 
+import android.content.Context;
+
 @SharedStorage(storageName = "Data", storageVersion = 1, keyName = "Connections")
 public class Connection implements Descriptionable {
     public enum Type {Empty, TcpClient, TcpServer}
@@ -35,12 +37,12 @@ public class Connection implements Descriptionable {
         }
     }
 
-    public String getDescription() {
+    public String getDescription(Context context) {
         switch(type) {
             case TcpClient:
-                return tcpClient.getDescription();
+                return tcpClient.getDescription(context);
             case TcpServer:
-                return tcpServer.getDescription();
+                return tcpServer.getDescription(context);
             default:
                 throw new IllegalStateException("Inconsistent Connection");
         }
@@ -48,17 +50,24 @@ public class Connection implements Descriptionable {
 
     public void setType(Type type) {
         this.type = type;
-        tcpClient = null;
-        tcpServer = null;
 
         switch (type) {
             case TcpClient:
-                tcpClient = new TcpClient();
+                if (tcpClient == null)
+                    tcpClient = new TcpClient();
                 break;
             case TcpServer:
-                tcpServer = new TcpServer();
+                if (tcpServer == null)
+                    tcpServer = new TcpServer();
                 break;
         }
+    }
+
+    public void sanitize() {
+        if (type != Type.TcpClient)
+            tcpClient = null;
+        if (type != Type.TcpServer)
+            tcpServer = null;
     }
 
     public void setName(String name) {

@@ -5,20 +5,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cz.honzamrazek.sensorstreamer.EditConnectionActivity">
+    tools:context="cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity">
     <!-- Action bar -->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/text_margin"
-        android:paddingRight="@dimen/text_margin"
-        tools:context="cz.honzamrazek.sensorstreamer.EditConnectionActivity">
+        android:padding="@dimen/text_margin"
+        tools:context="cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity">
 
         <TextView
             android:text="@string/connection_name"

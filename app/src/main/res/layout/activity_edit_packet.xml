@@ -5,52 +5,126 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cz.honzamrazek.sensorstreamer.EditConnectionActivity">
+    tools:context="cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity">
     <!-- Action bar -->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/text_margin"
-        android:paddingRight="@dimen/text_margin"
-        tools:context="cz.honzamrazek.sensorstreamer.EditConnectionActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/text_margin"
+            tools:context="cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity">
 
-        <TextView
-            android:text="@string/packet_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:ems="10"
-            android:id="@+id/name" />
+            <TextView
+                android:text="@string/packet_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:ems="10"
+                android:id="@+id/name" />
 
-        <TextView
-            android:text="@string/packet_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/type" />
+            <TextView
+                android:text="@string/packet_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/type" />
 
-        <!-- Fragment -->
-        <FrameLayout
-            android:id="@+id/details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="@string/include_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/timestamp" />
 
-        <Button
-            android:text="@string/save_packet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/save" />
-    </LinearLayout>
+            <TextView
+                android:text="@string/include_following_sensors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:text="@string/accelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/accelerometer" />
+
+            <CheckBox
+                android:text="@string/ambient_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ambient_temperature" />
+
+            <CheckBox
+                android:text="@string/gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gravity" />
+
+            <CheckBox
+                android:text="@string/gyroscope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gyroscope" />
+
+            <CheckBox
+                android:text="@string/light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/light" />
+
+            <CheckBox
+                android:text="@string/linear_acceleration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linear_acceleration" />
+
+            <CheckBox
+                android:text="@string/magnetic_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/magnetometer" />
+
+            <CheckBox
+                android:text="@string/pressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pressure" />
+
+            <CheckBox
+                android:text="@string/proximity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/proximity" />
+
+            <CheckBox
+                android:text="@string/relative_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/humidity" />
+
+            <CheckBox
+                android:text="@string/rotation_vector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rotation_vector" />
+
+            <Button
+                android:text="@string/save_packet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

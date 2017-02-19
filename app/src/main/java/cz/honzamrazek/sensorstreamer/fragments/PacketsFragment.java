@@ -2,9 +2,7 @@ package cz.honzamrazek.sensorstreamer.fragments;
 
 import android.content.Intent;
 
-import cz.honzamrazek.sensorstreamer.EditConnectionActivity;
-import cz.honzamrazek.sensorstreamer.EditPacketActivity;
-import cz.honzamrazek.sensorstreamer.ItemsOverviewFragment;
+import cz.honzamrazek.sensorstreamer.activities.EditPacketActivity;
 import cz.honzamrazek.sensorstreamer.R;
 import cz.honzamrazek.sensorstreamer.models.Packet;
 

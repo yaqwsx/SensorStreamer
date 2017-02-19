@@ -1,4 +1,4 @@
-package cz.honzamrazek.sensorstreamer;
+package cz.honzamrazek.sensorstreamer.activities;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import cz.honzamrazek.sensorstreamer.R;
 import cz.honzamrazek.sensorstreamer.fragments.ConnectionsFragment;
 import cz.honzamrazek.sensorstreamer.fragments.PacketsFragment;
 import cz.honzamrazek.sensorstreamer.fragments.StreamFragment;
@@ -23,10 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private NavigationView mNavigation;
-
-    // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
-    // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
-    private ActionBarDrawerToggle drawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
+        mDrawerToggle = setupDrawerToggle();
 
         // Tie DrawerLayout events to the ActionBarToggle
-        mDrawer.addDrawerListener(drawerToggle);
+        mDrawer.addDrawerListener(mDrawerToggle);
 
         Fragment fragment = new StreamFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -75,12 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.connections_menu, menu);
-        return true;
-    }*/
 
     public void selectDrawerItem(MenuItem menuItem) {
         Resources r = getResources();
@@ -124,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         // The action bar home/up action should open or close the drawer.
@@ -147,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
-        drawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }

@@ -1,11 +1,15 @@
-package cz.honzamrazek.sensorstreamer;
+package cz.honzamrazek.sensorstreamer.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,20 +20,29 @@ import android.widget.TextView;
 
 import cz.honzamrazek.sensorstreamer.R;
 import cz.honzamrazek.sensorstreamer.SharedStorageManager;
+import cz.honzamrazek.sensorstreamer.fragments.TcpClientConnectionFragment;
+import cz.honzamrazek.sensorstreamer.fragments.TcpServerConnectionFragment;
+import cz.honzamrazek.sensorstreamer.fragments.SpecialisedConnectionInterface;
 import cz.honzamrazek.sensorstreamer.models.Connection;
 import cz.honzamrazek.sensorstreamer.util.TaggedString;
 
-public class EditConnectionActivity extends AppCompatActivity {
+public class EditConnectionActivity extends AppCompatActivity
+        implements SpecialisedConnectionInterface.OnFragmentInteractionListener
+{
     public final static String EXTRA_CONNECTION = "cz.honzamrazek.cz.sensorstreamer.CONNECTION_IDX";
     private Connection mConnection;
     private EditText mNameEditText;
     private Button mSaveButton;
     private SharedStorageManager<Connection> mConnectionManager;
+    private SpecialisedConnectionInterface mConnectionDetailFragment;
+    private boolean mNameEdited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_connection);
+
+        mNameEdited = false;
 
         mConnectionManager = new SharedStorageManager<Connection>(this, Connection.class);
 
@@ -58,6 +71,19 @@ public class EditConnectionActivity extends AppCompatActivity {
     public void setupNameField() {
         mNameEditText = (EditText) findViewById(R.id.name);
         mNameEditText.setText(mConnection.getName(), TextView.BufferType.EDITABLE);
+        mNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mNameEdited = true;
+                enableSaveButton();
+            }
+        });
     }
 
     void setupSaveButton() {
@@ -108,20 +134,65 @@ public class EditConnectionActivity extends AppCompatActivity {
         changeConnectionType(mConnection.getType());
     }
 
-    void changeConnectionType(Connection.Type type) {
-        mConnection.setType(type);
+    public boolean validateName() {
+        if (mNameEditText == null)
+            return false;
+        if (mNameEditText.getText().length() == 0) {
+            if(mNameEdited)
+                mNameEditText.setError(getString(R.string.name_cannot_be_empty));
+            return false;
+        }
+        mNameEditText.setError(null);
+        return true;
+    }
 
-        if (type == Connection.Type.Empty) {
+    public void enableSaveButton() {
+        if (!validateName() || mConnectionDetailFragment == null) {
             mSaveButton.setEnabled(false);
         }
         else {
-            mSaveButton.setEnabled(true);
+            mSaveButton.setEnabled(mConnectionDetailFragment.isValid());
         }
+    }
+
+    void changeConnectionType(Connection.Type type) {
+        mConnection.setType(type);
+
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        switch (type) {
+            case TcpServer:
+                fragment = new TcpServerConnectionFragment();
+                break;
+            case TcpClient:
+                fragment = new TcpClientConnectionFragment();
+                break;
+            default:
+                if (mConnectionDetailFragment != null)
+                    fragmentManager.beginTransaction().remove((Fragment)mConnectionDetailFragment).commit();
+                return;
+        }
+        fragmentManager.beginTransaction().replace(R.id.details, fragment).commit();
+        mConnectionDetailFragment = (SpecialisedConnectionInterface) fragment;
+
+        enableSaveButton();
     }
 
     void onSave() {
         mConnection.setName(mNameEditText.getText().toString());
+        mConnectionDetailFragment.commit(mConnection);
+        mConnection.sanitize();
         mConnectionManager.commit();
         finish();
+    }
+
+    @Override
+    public void onValidation(boolean valid) {
+        enableSaveButton();
+    }
+
+    @Override
+    public Connection onDataLoad() {
+        return mConnection;
     }
 }

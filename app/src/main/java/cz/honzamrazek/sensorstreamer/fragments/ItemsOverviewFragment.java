@@ -1,4 +1,4 @@
-package cz.honzamrazek.sensorstreamer;
+package cz.honzamrazek.sensorstreamer.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,11 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import cz.honzamrazek.sensorstreamer.R;
+import cz.honzamrazek.sensorstreamer.SharedStorageManager;
 import cz.honzamrazek.sensorstreamer.adapters.ItemOverviewAdapter;
 import cz.honzamrazek.sensorstreamer.models.Descriptionable;
 
 abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends Fragment {
-    private SharedStorageManager<T> mConnectionManager;
+    private SharedStorageManager<T> mDataManager;
     private ItemOverviewAdapter<T> mAdapter;
     private ListView mList;
     private FloatingActionButton mAddButton;
@@ -42,8 +44,8 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
         mList = (ListView) view.findViewById(R.id.connection_list);
         mList.setEmptyView(emptyText);
 
-        mConnectionManager = new SharedStorageManager<T>(this.getContext(), mItemClass);
-        mAdapter = new ItemOverviewAdapter<>(getActivity(), mConnectionManager.getItems());
+        mDataManager = new SharedStorageManager<T>(this.getContext(), mItemClass);
+        mAdapter = new ItemOverviewAdapter<>(getActivity(), mDataManager.getItems());
         registerForContextMenu(mList);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,25 +72,25 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
     @Override
     public void onResume() {
         super.onResume();
-        mConnectionManager.reload();
+        mDataManager.reload();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onEditItem(int position) {
         editItem(position);
-        mConnectionManager.reload();
+        mDataManager.reload();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onDeleteItem(int position) {
-        mConnectionManager.remove(position);
-        mConnectionManager.commit();
+        mDataManager.remove(position);
+        mDataManager.commit();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onCreateNewItem() {
         createNewItem();
-        mConnectionManager.reload();
+        mDataManager.reload();
     }
 
     @Override
