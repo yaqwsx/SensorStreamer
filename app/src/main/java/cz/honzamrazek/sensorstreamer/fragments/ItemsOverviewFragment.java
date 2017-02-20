@@ -19,7 +19,7 @@ import cz.honzamrazek.sensorstreamer.adapters.ItemOverviewAdapter;
 import cz.honzamrazek.sensorstreamer.models.Descriptionable;
 
 abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends Fragment {
-    private SharedStorageManager<T> mDataManager;
+    private SharedStorageManager<T> mConnectionManager;
     private ItemOverviewAdapter<T> mAdapter;
     private ListView mList;
     private FloatingActionButton mAddButton;
@@ -44,8 +44,8 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
         mList = (ListView) view.findViewById(R.id.connection_list);
         mList.setEmptyView(emptyText);
 
-        mDataManager = new SharedStorageManager<T>(this.getContext(), mItemClass);
-        mAdapter = new ItemOverviewAdapter<>(getActivity(), mDataManager.getItems());
+        mConnectionManager = new SharedStorageManager<T>(this.getContext(), mItemClass);
+        mAdapter = new ItemOverviewAdapter<>(getActivity(), mConnectionManager.getItems());
         registerForContextMenu(mList);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,25 +72,25 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
     @Override
     public void onResume() {
         super.onResume();
-        mDataManager.reload();
+        mConnectionManager.reload();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onEditItem(int position) {
         editItem(position);
-        mDataManager.reload();
+        mConnectionManager.reload();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onDeleteItem(int position) {
-        mDataManager.remove(position);
-        mDataManager.commit();
+        mConnectionManager.remove(position);
+        mConnectionManager.commit();
         mAdapter.notifyDataSetChanged();
     }
 
     private void onCreateNewItem() {
         createNewItem();
-        mDataManager.reload();
+        mConnectionManager.reload();
     }
 
     @Override

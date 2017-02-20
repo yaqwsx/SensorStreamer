@@ -61,4 +61,8 @@
     <string name="frequency_hz">Frequency (Hz)</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="not_supported">Not supported</string>
+    <string name="binary_not_supported">Binary packets are not yet supported</string>
+    <string name="no_packet_specified">No packet was specified</string>
 </resources>
