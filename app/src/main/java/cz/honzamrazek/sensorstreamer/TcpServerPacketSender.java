@@ -34,9 +34,7 @@ public class TcpServerPacketSender extends PacketSender implements Runnable {
         public byte[] data;
     }
 
-    public TcpServerPacketSender(PacketSenderListener listener, int port)
-            throws IOException
-    {
+    public TcpServerPacketSender(PacketSenderListener listener, int port) {
         mPort = port;
         mListener = listener;
         mQueue = new ArrayBlockingQueue(1024);
@@ -88,9 +86,7 @@ public class TcpServerPacketSender extends PacketSender implements Runnable {
                 stream.write(c.data);
             }
         }
-        catch (IOException e) {
-            mListener.onError(e.getMessage());
-        } catch (InterruptedException e) {
+        catch (IOException | InterruptedException e) {
             mListener.onError(e.getMessage());
         } finally {
             try {

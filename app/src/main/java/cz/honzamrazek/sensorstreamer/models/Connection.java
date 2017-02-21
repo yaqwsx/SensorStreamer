@@ -7,7 +7,7 @@ public class Connection implements Descriptionable {
     public enum Type {Empty, TcpClient, TcpServer}
 
     public Type type;
-    public String name;
+    private String name;
 
     // Variant would be useful, but to make things simple for DBFlow...
     public TcpClient tcpClient;

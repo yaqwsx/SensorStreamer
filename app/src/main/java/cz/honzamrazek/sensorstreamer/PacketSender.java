@@ -4,7 +4,6 @@ package cz.honzamrazek.sensorstreamer;
 import android.content.Context;
 
 import java.io.Closeable;
-import java.io.IOException;
 
 public abstract class PacketSender implements Closeable {
     public abstract void sendPacket(byte[] packet);

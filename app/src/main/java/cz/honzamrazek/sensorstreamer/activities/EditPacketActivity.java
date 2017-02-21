@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,7 +37,7 @@ public class EditPacketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_packet);
 
-        mPacketManager = new SharedStorageManager<Packet>(this, Packet.class);
+        mPacketManager = new SharedStorageManager<>(this, Packet.class);
 
         Intent intent = getIntent();
         int connectionPos = intent.getIntExtra(EXTRA_PACKET, -1);
@@ -166,11 +165,11 @@ public class EditPacketActivity extends AppCompatActivity {
         ArrayAdapter<TaggedString<Packet.Type>> adapter
                 = new ArrayAdapter<>(this, R.layout.type_spinner_item);
         Resources r = getResources();
-        adapter.add(new TaggedString<Packet.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.choose_type), Packet.Type.Empty));
-        adapter.add(new TaggedString<Packet.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.json), Packet.Type.JSON));
-        adapter.add(new TaggedString<Packet.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.binary), Packet.Type.Binary));
 
         int active = 0;

@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 import cz.honzamrazek.sensorstreamer.R;
 import cz.honzamrazek.sensorstreamer.SharedStorageManager;
+import cz.honzamrazek.sensorstreamer.fragments.SpecialisedConnectionInterface;
 import cz.honzamrazek.sensorstreamer.fragments.TcpClientConnectionFragment;
 import cz.honzamrazek.sensorstreamer.fragments.TcpServerConnectionFragment;
-import cz.honzamrazek.sensorstreamer.fragments.SpecialisedConnectionInterface;
 import cz.honzamrazek.sensorstreamer.models.Connection;
 import cz.honzamrazek.sensorstreamer.util.TaggedString;
 
@@ -44,7 +44,7 @@ public class EditConnectionActivity extends AppCompatActivity
 
         mNameEdited = false;
 
-        mConnectionManager = new SharedStorageManager<Connection>(this, Connection.class);
+        mConnectionManager = new SharedStorageManager<>(this, Connection.class);
 
         Intent intent = getIntent();
         int connectionPos = intent.getIntExtra(EXTRA_CONNECTION, -1);
@@ -100,11 +100,11 @@ public class EditConnectionActivity extends AppCompatActivity
         ArrayAdapter<TaggedString<Connection.Type>> adapter
                 = new ArrayAdapter<>(this, R.layout.type_spinner_item);
         Resources r = getResources();
-        adapter.add(new TaggedString<Connection.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.choose_type), Connection.Type.Empty));
-        adapter.add(new TaggedString<Connection.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.tcp_server), Connection.Type.TcpServer));
-        adapter.add(new TaggedString<Connection.Type>(
+        adapter.add(new TaggedString<>(
                 r.getString(R.string.tcp_client), Connection.Type.TcpClient));
 
         int active = 0;

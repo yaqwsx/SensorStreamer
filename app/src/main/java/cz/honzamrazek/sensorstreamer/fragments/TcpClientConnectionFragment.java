@@ -1,5 +1,6 @@
 package cz.honzamrazek.sensorstreamer.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class TcpClientConnectionFragment extends Fragment implements Specialised
         // Required empty public constructor
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

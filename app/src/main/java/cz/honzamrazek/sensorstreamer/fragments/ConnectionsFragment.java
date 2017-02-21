@@ -2,8 +2,8 @@ package cz.honzamrazek.sensorstreamer.fragments;
 
 import android.content.Intent;
 
-import cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity;
 import cz.honzamrazek.sensorstreamer.R;
+import cz.honzamrazek.sensorstreamer.activities.EditConnectionActivity;
 import cz.honzamrazek.sensorstreamer.models.Connection;
 
 public class ConnectionsFragment extends ItemsOverviewFragment<Connection> {

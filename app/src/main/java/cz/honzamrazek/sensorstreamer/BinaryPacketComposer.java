@@ -5,8 +5,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.google.gson.Gson;
-
 import java.nio.ByteBuffer;
 
 import cz.honzamrazek.sensorstreamer.models.Packet;

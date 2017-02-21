@@ -2,7 +2,6 @@ package cz.honzamrazek.sensorstreamer.models;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import cz.honzamrazek.sensorstreamer.R;
 

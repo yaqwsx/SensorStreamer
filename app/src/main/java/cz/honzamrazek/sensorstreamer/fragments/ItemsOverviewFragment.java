@@ -21,8 +21,6 @@ import cz.honzamrazek.sensorstreamer.models.Descriptionable;
 abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends Fragment {
     private SharedStorageManager<T> mConnectionManager;
     private ItemOverviewAdapter<T> mAdapter;
-    private ListView mList;
-    private FloatingActionButton mAddButton;
 
     private Class<T> mItemClass;
     private int mEmptyMessage;
@@ -41,10 +39,10 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
         TextView emptyText = (TextView) view.findViewById(android.R.id.empty);
         emptyText.setText(mEmptyMessage, TextView.BufferType.NORMAL);
 
-        mList = (ListView) view.findViewById(R.id.connection_list);
+        ListView mList = (ListView) view.findViewById(R.id.connection_list);
         mList.setEmptyView(emptyText);
 
-        mConnectionManager = new SharedStorageManager<T>(this.getContext(), mItemClass);
+        mConnectionManager = new SharedStorageManager<>(this.getContext(), mItemClass);
         mAdapter = new ItemOverviewAdapter<>(getActivity(), mConnectionManager.getItems());
         registerForContextMenu(mList);
         mList.setAdapter(mAdapter);
@@ -55,7 +53,7 @@ abstract public class ItemsOverviewFragment<T extends  Descriptionable> extends 
             }
         });
 
-        mAddButton = (FloatingActionButton)view.findViewById(R.id.add_connection);
+        FloatingActionButton mAddButton = (FloatingActionButton) view.findViewById(R.id.add_connection);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

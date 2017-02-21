@@ -3,11 +3,8 @@
     <string name="stream">Stream</string>
     <string name="manage_connections">Manage Connections</string>
     <string name="manage_packets">Manage Packets</string>
-    <string name="about">About</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
-    <string name="add_connection">Add Connection</string>
-    <string name="add_packet">Add Packet</string>
     <string name="no_packets">No packets</string>
     <string name="no_connections">No connections</string>
     <string name="edit">Edit</string>
@@ -31,7 +28,7 @@
     <string name="connections_overview">Connections overview</string>
     <string name="streaming">Streaming</string>
     <string name="port">Port</string>
-    <string name="port_outside_range">Port has to be in range 1-65535</string>
+    <string name="port_outside_range">Port has to be in range 1–65535</string>
     <string name="tcp_server_on_port">"TCP server on port "</string>
     <string name="name_cannot_be_empty">Name cannot be empty</string>
     <string name="tcp_client_on_host">"TCP client on host: "</string>
@@ -58,12 +55,9 @@
     <string name="include_timestamp">Include timestamp</string>
     <string name="connection">Connection</string>
     <string name="packet">Packet</string>
-    <string name="frequency_hz">Frequency (Hz)</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="dismiss">Dismiss</string>
-    <string name="not_supported">Not supported</string>
-    <string name="binary_not_supported">Binary packets are not yet supported</string>
     <string name="no_packet_specified">No packet was specified</string>
     <string name="packet_period">Packet period</string>
     <string name="high_period_200_ms">High period (200 ms)</string>

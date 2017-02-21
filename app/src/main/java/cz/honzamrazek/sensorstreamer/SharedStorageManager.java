@@ -47,7 +47,7 @@ public class SharedStorageManager<T> {
         SharedPreferences.Editor editor = mPreferences.edit();
         String json = new Gson().toJson(mItems);
         editor.putString(mKey, json);
-        editor.commit();
+        editor.apply();
     }
 
     public List<T> getItems() {

@@ -7,6 +7,7 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -31,8 +32,9 @@
 
         <service android:name=".StreamingService" />
 
-        <activity android:name=".StreamingErrorActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
+        <activity
+            android:name=".StreamingErrorActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
     </application>
 
 </manifest>

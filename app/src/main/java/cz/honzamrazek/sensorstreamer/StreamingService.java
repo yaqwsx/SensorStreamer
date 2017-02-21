@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Spinner;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import cz.honzamrazek.sensorstreamer.models.Connection;
 import cz.honzamrazek.sensorstreamer.models.Packet;
@@ -59,23 +57,17 @@ public class StreamingService extends Service
             }
             Connection connection = connectionManager.get(connectionId);
 
-            try {
-                switch (connection.type) {
-                    case TcpClient:
-                        mSender = new TcpClientPacketSender(this,
-                                connection.tcpClient.getHostname(), connection.tcpClient.getPort());
-                        break;
-                    case TcpServer:
-                        mSender = new TcpServerPacketSender(this, connection.tcpServer.getPort());
-                        break;
-                    default:
-                        dieWithError("Unsupported connection", "Selected type of connection is not supported");
-                        return START_NOT_STICKY;
-                }
-            }
-            catch (IOException e) {
-                dieWithError("Cannot connect", e.getMessage());
-                return START_NOT_STICKY;
+            switch (connection.type) {
+                case TcpClient:
+                    mSender = new TcpClientPacketSender(this,
+                            connection.tcpClient.getHostname(), connection.tcpClient.getPort());
+                    break;
+                case TcpServer:
+                    mSender = new TcpServerPacketSender(this, connection.tcpServer.getPort());
+                    break;
+                default:
+                    dieWithError("Unsupported connection", "Selected type of connection is not supported");
+                    return START_NOT_STICKY;
             }
 
             Intent stop = new Intent(this, StreamingService.class);
@@ -134,11 +126,6 @@ public class StreamingService extends Service
 
     @Override
     public void onPacketComplete(byte[] packet) {
-        String str = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            str = new String(packet, StandardCharsets.UTF_8);
-            Log.d("Packets", str);
-        }
         mSender.sendPacket(packet);
     }
 

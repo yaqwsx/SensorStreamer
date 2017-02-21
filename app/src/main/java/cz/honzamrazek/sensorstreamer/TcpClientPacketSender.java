@@ -29,9 +29,7 @@ public class TcpClientPacketSender extends PacketSender implements Runnable {
         public byte[] data;
     }
 
-    public TcpClientPacketSender(PacketSenderListener listener, String hostname, int port)
-            throws IOException
-    {
+    public TcpClientPacketSender(PacketSenderListener listener, String hostname, int port) {
         mHostname = hostname;
         mPort = port;
         mListener = listener;
@@ -71,9 +69,7 @@ public class TcpClientPacketSender extends PacketSender implements Runnable {
                 stream.write(c.data);
             }
         }
-        catch (IOException e) {
-            mListener.onError(e.getMessage());
-        } catch (InterruptedException e) {
+        catch (IOException | InterruptedException e) {
             mListener.onError(e.getMessage());
         } finally {
             try {

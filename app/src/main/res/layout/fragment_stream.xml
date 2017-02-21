@@ -1,94 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:padding="@dimen/text_margin"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/connection" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/connection" />
+
+    <TextView
+        android:text="@string/packet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/packet" />
+
+    <TextView
+        android:text="@string/packet_period"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/period">
+
+        <RadioButton
+            android:text="@string/high_period_200_ms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true" />
+
+        <RadioButton
+            android:text="@string/medium_period_60_ms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/low_period_10_ms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/lowest_possible_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </RadioGroup>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/text_margin" >
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:text="@string/start"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/connection" />
+            android:id="@+id/start"
+            android:layout_weight="1" />
 
-        <Spinner
-            android:layout_width="match_parent"
+        <Button
+            android:text="@string/stop"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/connection" />
-
-        <TextView
-            android:text="@string/packet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/packet" />
-
-        <TextView
-            android:text="@string/packet_period"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/period">
-
-            <RadioButton
-                android:text="@string/high_period_200_ms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_slow"
-                android:layout_weight="1"
-                android:checked="true" />
-
-            <RadioButton
-                android:text="@string/medium_period_60_ms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_medium"
-                android:layout_weight="1" />
-
-            <RadioButton
-                android:text="@string/low_period_10_ms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_fast"
-                android:layout_weight="1" />
-
-            <RadioButton
-                android:text="@string/lowest_possible_period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_fastest"
-                android:layout_weight="1" />
-        </RadioGroup>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="@string/start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/start"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="@string/stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stop"
-                android:layout_weight="1" />
-        </LinearLayout>
+            android:id="@+id/stop"
+            android:layout_weight="1" />
     </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>
