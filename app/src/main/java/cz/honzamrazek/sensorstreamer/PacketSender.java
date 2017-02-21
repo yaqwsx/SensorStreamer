@@ -1,6 +1,17 @@
 package cz.honzamrazek.sensorstreamer;
 
 
-public interface PacketSender {
-    void sendPacket(Byte[] packet);
+import android.content.Context;
+
+import java.io.Closeable;
+import java.io.IOException;
+
+public abstract class PacketSender implements Closeable {
+    public abstract void sendPacket(byte[] packet);
+
+    public interface PacketSenderListener {
+        void onError(String error);
+    }
+
+    public abstract String getDescription(Context context);
 }

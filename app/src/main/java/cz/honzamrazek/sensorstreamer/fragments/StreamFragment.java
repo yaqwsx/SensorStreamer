@@ -2,6 +2,8 @@ package cz.honzamrazek.sensorstreamer.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import cz.honzamrazek.sensorstreamer.R;
@@ -28,7 +31,7 @@ public class StreamFragment extends Fragment {
     private SharedStorageManager<Packet> mPacketsManager;
     private ItemOverviewAdapter<Packet> mPacketsAdapter;
     private Spinner mPacketsSpinner;
-    private EditText mFrequency;
+    private  RadioGroup mRadioButtonGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +47,8 @@ public class StreamFragment extends Fragment {
         mPacketsAdapter = new ItemOverviewAdapter<>(getActivity(), mPacketsManager.getItems());
         mPacketsSpinner = (Spinner) v.findViewById(R.id.packet);
         mPacketsSpinner.setAdapter(mPacketsAdapter);
+
+        mRadioButtonGroup = (RadioGroup) v.findViewById(R.id.period);
 
         Button startButton = (Button) v.findViewById(R.id.start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +66,6 @@ public class StreamFragment extends Fragment {
             }
         });
 
-        mFrequency = (EditText) v.findViewById(R.id.frequency);
-
         return v;
     }
 
@@ -76,11 +79,19 @@ public class StreamFragment extends Fragment {
     }
 
     public void startStreaming() {
+        int radioButtonID = mRadioButtonGroup.getCheckedRadioButtonId();
+        View radioButton = mRadioButtonGroup.findViewById(radioButtonID);
+        int idx = mRadioButtonGroup.indexOfChild(radioButton);
+
         Intent intent = new Intent(getActivity(), StreamingService.class);
         intent.setAction(StreamingService.START);
         intent.putExtra(StreamingService.CONNECTION, mConnectionsSpinner.getSelectedItemPosition());
         intent.putExtra(StreamingService.PACKET, mPacketsSpinner.getSelectedItemPosition());
-        intent.putExtra(StreamingService.FREQ, mFrequency.getText().toString());
+
+        int delays[] = {SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI,
+            SensorManager.SENSOR_DELAY_GAME, SensorManager.SENSOR_DELAY_FASTEST};
+
+        intent.putExtra(StreamingService.PERIOD, delays[idx]);
         getActivity().startService(intent);
     }
 

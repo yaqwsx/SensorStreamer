@@ -1,6 +1,5 @@
 package cz.honzamrazek.sensorstreamer;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -11,52 +10,32 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import cz.honzamrazek.sensorstreamer.activities.MainActivity;
+import cz.honzamrazek.sensorstreamer.models.Connection;
 import cz.honzamrazek.sensorstreamer.models.Packet;
-import cz.honzamrazek.sensorstreamer.models.SharedStorage;
 
-public class StreamingService extends Service implements PacketComposer.PacketComposerListener {
+public class StreamingService extends Service
+        implements PacketComposer.PacketComposerListener, PacketSender.PacketSenderListener {
     public static final String START = "start";
     public static final String STOP = "stop";
     public static final String CONNECTION = "connection";
     public static final String PACKET = "packet";
-    public static final String FREQ = "frequency";
+    public static final String PERIOD = "period";
 
     private PacketComposer mComposer;
+    private PacketSender mSender;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getAction().equals(START)) {
-            Intent stop = new Intent(this, StreamingService.class);
-            stop.setAction(STOP);
-            PendingIntent pStop = PendingIntent.getService(this, 0, stop, 0);
-
-            Notification.Builder builder = new Notification.Builder(getBaseContext())
-                    .setTicker("Your Ticker")
-                    .setSmallIcon(android.R.drawable.ic_media_play)
-                    .setContentTitle("Your content title")
-                    .setContentText("Your content text")
-                    .addAction(android.R.drawable.ic_media_pause, "Stop", pStop);
-
-            startForeground(1, builder.build());
-
-            String freqStr = intent.getStringExtra(FREQ);
-            if (freqStr.isEmpty()) {
-                errorMessage("Invalid frequency", "Invalid frequency was specified");
-                stopSelf();
-                return START_NOT_STICKY;
-            }
-            int frequency = Integer.parseInt(freqStr);
-
+            int period = intent.getIntExtra(PERIOD, 0);
             SharedStorageManager<Packet> packetManager = new SharedStorageManager<>(this, Packet.class);
             int packetId = intent.getIntExtra(PACKET, Spinner.INVALID_POSITION);
             if (packetId == Spinner.INVALID_POSITION) {
-                errorMessage(getString(R.string.invalid_packet), getString(R.string.no_packet_specified));
-                stopSelf();
+                dieWithError(getString(R.string.invalid_packet), getString(R.string.no_packet_specified));
                 return START_NOT_STICKY;
             }
             SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -66,15 +45,61 @@ public class StreamingService extends Service implements PacketComposer.PacketCo
                     mComposer = new JsonPacketComposer(sensorManager, packet);
                     break;
                 case Binary:
-                    errorMessage(getString(R.string.not_supported), getString(R.string.binary_not_supported));
-                    stopSelf();
+                    dieWithError(getString(R.string.not_supported), getString(R.string.binary_not_supported));
                     return START_NOT_STICKY;
             }
             mComposer.setListener(this);
-            mComposer.start(frequency);
+            mComposer.start(period);
+
+            SharedStorageManager<Connection> connectionManager = new SharedStorageManager<>(this, Connection.class);
+            int connectionId = intent.getIntExtra(CONNECTION, Spinner.INVALID_POSITION);
+            if (connectionId == Spinner.INVALID_POSITION) {
+                dieWithError(getString(R.string.invalid_connection), getString(R.string.no_connection_specified));
+                return START_NOT_STICKY;
+            }
+            Connection connection = connectionManager.get(connectionId);
+
+            try {
+                switch (connection.type) {
+                    case TcpClient:
+                        mSender = new TcpClientPacketSender(this,
+                                connection.tcpClient.getHostname(), connection.tcpClient.getPort());
+                        break;
+                    case TcpServer:
+                        mSender = new TcpServerPacketSender(this, connection.tcpServer.getPort());
+                        break;
+                    default:
+                        dieWithError("Unsupported connection", "Selected type of connection is not supported");
+                        return START_NOT_STICKY;
+                }
+            }
+            catch (IOException e) {
+                dieWithError("Cannot connect", e.getMessage());
+                return START_NOT_STICKY;
+            }
+
+            Intent stop = new Intent(this, StreamingService.class);
+            stop.setAction(STOP);
+            PendingIntent pStop = PendingIntent.getService(this, 0, stop, 0);
+
+            Notification.Builder builder = new Notification.Builder(getBaseContext())
+                    //.setTicker("Your Ticker")
+                    .setSmallIcon(android.R.drawable.ic_media_play)
+                    .setContentTitle(getString(R.string.streaming_is_active))
+                    .setContentText(mSender.getDescription(this))
+                    .addAction(android.R.drawable.ic_media_pause, getString(R.string.stop), pStop);
+
+            startForeground(1, builder.build());
         }
         else if(intent.getAction().equals(STOP)) {
-            mComposer.stop();
+            try {
+                if (mComposer != null)
+                    mComposer.stop();
+                if (mSender != null)
+                    mSender.close();
+            } catch (IOException e) {
+                onError(e.getMessage());
+            }
             stopForeground(true);
             stopSelf();
         }
@@ -95,12 +120,30 @@ public class StreamingService extends Service implements PacketComposer.PacketCo
         startActivity(dialog);
     }
 
+    public void dieWithError(String title, String message) {
+        errorMessage(title, message);
+        stopSelf();
+        if (mComposer != null)
+            mComposer.stop();
+        if (mSender != null) {
+            try {
+                mSender.close();
+            } catch (IOException e) { /* ignored */ }
+        }
+    }
+
     @Override
     public void onPacketComplete(byte[] packet) {
         String str = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             str = new String(packet, StandardCharsets.UTF_8);
+            Log.d("Packets", str);
         }
-        Log.d("Packets", str);
+        mSender.sendPacket(packet);
+    }
+
+    @Override
+    public void onError(String error) {
+        dieWithError(getString(R.string.communication_error), error);
     }
 }

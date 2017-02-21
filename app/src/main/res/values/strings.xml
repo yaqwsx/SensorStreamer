@@ -65,4 +65,15 @@
     <string name="not_supported">Not supported</string>
     <string name="binary_not_supported">Binary packets are not yet supported</string>
     <string name="no_packet_specified">No packet was specified</string>
+    <string name="packet_period">Packet period</string>
+    <string name="high_period_200_ms">High period (200 ms)</string>
+    <string name="medium_period_60_ms">Medium period (60 ms)</string>
+    <string name="low_period_10_ms">Low period (10 ms)</string>
+    <string name="lowest_possible_period">Lowest possible period</string>
+    <string name="invalid_connection">Invalid connection</string>
+    <string name="no_connection_specified">No connection specified</string>
+    <string name="communication_error">Communication error</string>
+    <string name="connected_to">"Connected to "</string>
+    <string name="serving_at">"Serving at "</string>
+    <string name="streaming_is_active">Streaming is active</string>
 </resources>

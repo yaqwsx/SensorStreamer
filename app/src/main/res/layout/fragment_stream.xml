@@ -31,17 +31,44 @@
             android:id="@+id/packet" />
 
         <TextView
-            android:text="@string/frequency_hz"
+            android:text="@string/packet_period"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:text="10"
-            android:ems="10"
-            android:id="@+id/frequency" />
+            android:id="@+id/period">
+
+            <RadioButton
+                android:text="@string/high_period_200_ms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_slow"
+                android:layout_weight="1"
+                android:checked="true" />
+
+            <RadioButton
+                android:text="@string/medium_period_60_ms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_medium"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/low_period_10_ms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_fast"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/lowest_possible_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_fastest"
+                android:layout_weight="1" />
+        </RadioGroup>
 
         <LinearLayout
             android:orientation="horizontal"

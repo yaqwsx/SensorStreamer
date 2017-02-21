@@ -60,8 +60,7 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
 
 
     @Override
-    public void start(int frequency) {
-        int period = 1000000 / frequency;
+    public void start(int period) {
         mTargetCount = 0;
         if (mPacket.accelerometer) {
             mTargetCount++;
@@ -185,7 +184,9 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
         mCount++;
         if (mCount == mTargetCount) {
             mCount = 0;
-            mListener.onPacketComplete(new Gson().toJson(mData).getBytes());
+            String packet = new Gson().toJson(mData);
+            packet += "\n";
+            mListener.onPacketComplete(packet.getBytes());
             mData = new Json();
         }
 
