@@ -45,8 +45,8 @@ public class StreamingService extends Service
                     mComposer = new JsonPacketComposer(sensorManager, packet);
                     break;
                 case Binary:
-                    dieWithError(getString(R.string.not_supported), getString(R.string.binary_not_supported));
-                    return START_NOT_STICKY;
+                    mComposer = new BinaryPacketComposer(sensorManager, packet);
+                    break;
             }
             mComposer.setListener(this);
             mComposer.start(period);
