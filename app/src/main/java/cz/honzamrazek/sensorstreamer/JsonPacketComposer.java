@@ -7,14 +7,18 @@ import android.hardware.SensorManager;
 
 import com.google.gson.Gson;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import cz.honzamrazek.sensorstreamer.models.Packet;
 
 public class JsonPacketComposer implements PacketComposer, SensorEventListener {
     PacketComposerListener mListener;
     SensorManager mManager;
     Packet mPacket;
-    int mTargetCount, mCount;
+    int mTargetCount;
     Json mData;
+    Set<Integer> mSeenTypes;
 
     private class Vector1D {
         public Vector1D(float[] values, long timestamp) {
@@ -28,13 +32,13 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
 
     private class Vector3D {
         public Vector3D(float[] values, long timestamp) {
-            this.x = values[0];
-            this.y = values[1];
-            this.z = values[2];
+            value = new float[3];
+            for (int i = 0; i != 3; i++)
+                this.value[i] = values[i];
             this.timestamp = timestamp;
         }
 
-        float x, y, z;
+        float[] value;
         long timestamp;
     }
 
@@ -46,7 +50,6 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
         Vector1D light;
         Vector3D linearAcceleration;
         Vector3D magneticField;
-        Vector3D orientation;
         Vector1D pressure;
         Vector1D proximity;
         Vector1D relativeHumidity;
@@ -128,7 +131,7 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
             mManager.registerListener(this, s, period);
         }
 
-        mCount = 0;
+        mSeenTypes = new TreeSet<>();
         mData = new Json();
     }
 
@@ -181,9 +184,9 @@ public class JsonPacketComposer implements PacketComposer, SensorEventListener {
             default:
                 return;
         }
-        mCount++;
-        if (mCount == mTargetCount) {
-            mCount = 0;
+        mSeenTypes.add(new Integer(event.sensor.getType()));
+        if (mSeenTypes.size() == mTargetCount) {
+            mSeenTypes.clear();
             String packet = new Gson().toJson(mData);
             packet += "\n";
             mListener.onPacketComplete(packet.getBytes());

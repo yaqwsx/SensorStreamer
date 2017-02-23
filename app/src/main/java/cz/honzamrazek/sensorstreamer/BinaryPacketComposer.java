@@ -6,6 +6,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import java.nio.ByteBuffer;
+import java.util.Set;
+import java.util.TreeSet;
 
 import cz.honzamrazek.sensorstreamer.models.Packet;
 
@@ -13,8 +15,9 @@ public class BinaryPacketComposer implements PacketComposer, SensorEventListener
     private PacketComposerListener mListener;
     private SensorManager mManager;
     private Packet mPacket;
-    private int mTargetCount, mCount;
+    private int mTargetCount;
     private ByteBuffer mData;
+    Set<Integer> mSeenTypes;
 
     private int accelerometerOffset,
         ambientTemperatureOffset,
@@ -129,7 +132,7 @@ public class BinaryPacketComposer implements PacketComposer, SensorEventListener
             mManager.registerListener(this, s, period);
         }
 
-        mCount = 0;
+        mSeenTypes = new TreeSet<>();
         mData = ByteBuffer.allocateDirect(size);
         mData.put((byte) 0x80);
     }
@@ -188,11 +191,11 @@ public class BinaryPacketComposer implements PacketComposer, SensorEventListener
             default:
                 return;
         }
-        mCount++;
-        if (mCount == mTargetCount) {
+        mSeenTypes.add(new Integer(event.sensor.getType()));
+        if (mSeenTypes.size() == mTargetCount) {
             if (mPacket.timeStamp)
                 mData.putLong(1, event.timestamp);
-            mCount = 0;
+            mSeenTypes.clear();
             mListener.onPacketComplete(mData.array());
         }
 
