@@ -31,14 +31,15 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/period">
+        android:id="@+id/period"
+        android:checkedButton="@+id/default_radio">
 
         <RadioButton
             android:text="@string/high_period_200_ms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:checked="true" />
+            android:id="@+id/default_radio" />
 
         <RadioButton
             android:text="@string/medium_period_60_ms"
