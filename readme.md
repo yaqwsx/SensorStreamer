@@ -23,12 +23,14 @@ them e.g. with a simple Python script.
 
 ## Format of the JSON Packet
 
-The packets contain a JSON object as the top level entity. This object contains a field for each sensor. Each sensor supplies two values:
+The packets contain a JSON object as the top level entity. This object contains
+a field for each sensor. Each sensor supplies two values:
 
-    - timestamp (in form of nano seconds)
-    - single `value` or `x`, `y`, `z` fields with float values. For precise
-      meaning of these values, see [Android Sensor Reference](https://developer.
-      android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel).
+    - `timestamp` (in form of nano seconds)
+    - `value` which is either a single float value or a 3D array of floats. For
+      precise meaning of these values, see [Android Sensor
+      Reference](https://developer. android.com/guide/topics/sensors/sensors_mot
+      ion.html#sensors-motion-accel).
 
 As it is impossible to capture value from multiple sensor at the same time,
 timestamp is included for each sensor independently. There should be only small
@@ -47,6 +49,14 @@ is following:
 Timestamp is optional and can be ommited. The sensors are in the exact same
 order as the configuration in app says. This packet contains only one timestamp
 in order to be as compact as possible.
+
+## Timing
+
+Due to the restrictions of Android API, it no possible to specify an exact
+frequency for sensor reading. Only 4 modes are available with frequencies
+roughly 5 Hz, 16 Hz, 100 Hz and the fastest possible mode. Note, that there no
+guarantee on the timing - the sensor might not be able to deliver values faste.
+In such a case, the frequency is limited by the slowest sensor in the packet.
 
 ## Future Plans
 
