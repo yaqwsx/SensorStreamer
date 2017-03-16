@@ -76,10 +76,10 @@ public class StreamingService extends Service
 
             Notification.Builder builder = new Notification.Builder(getBaseContext())
                     //.setTicker("Your Ticker")
-                    .setSmallIcon(android.R.drawable.ic_media_play)
+                    .setSmallIcon(R.drawable.ic_stat_name)
                     .setContentTitle(getString(R.string.streaming_is_active))
                     .setContentText(mSender.getDescription(this))
-                    .addAction(android.R.drawable.ic_media_pause, getString(R.string.stop), pStop);
+                    .addAction(R.drawable.ic_stat_name, getString(R.string.stop), pStop);
 
             startForeground(1, builder.build());
         }
