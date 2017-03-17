@@ -12,6 +12,8 @@ limitation. Here comes SensorStreamer - lightweight Android app, which can log
 sensor data and send them over network to your computer, where you can analyze
 them e.g. with a simple Python script.
 
+You can download the app at the Play Store: [SensorStreamer](https://play.google.com/store/apps/details?id=cz.honzamrazek.sensorstreamer)
+
 ## Supported Features
 
 - streaming of values from any sensor in the phone (as far as the sensor is
@@ -30,7 +32,7 @@ a field for each sensor. Each sensor supplies two values:
 
 - `timestamp` (in form of nano seconds)
 - `value` which is either a single float value or a 3D array of floats. For
-  precise meaning of these values, see [Android Sensor Reference](https://developer. android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel).
+  precise meaning of these values, see [Android Sensor Reference](https://developer.android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-accel).
 
 As it is impossible to capture value from multiple sensor at the same time,
 time-stamp is included for each sensor independently. There should be only small
