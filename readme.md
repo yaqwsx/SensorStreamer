@@ -48,7 +48,7 @@ is following:
 [0x80] [timestamp 8 bytes] [sensor values 1 or 3 float] ... [sensor values 1 or 3 float]
 ```
 
-Timestamp is optional and can be omnited. The sensors are in the exact same
+Timestamp is optional and can be omitted. The sensors are in the exact same
 order as the configuration in app says. This packet contains only one timestamp
 in order to be as compact as possible.
 
@@ -60,12 +60,10 @@ roughly 5 Hz, 16 Hz, 100 Hz and the fastest possible mode. Note, that there no
 guarantee on the timing - the sensor might not be able to deliver values faster.
 In such a case, the frequency is limited by the slowest sensor in the packet.
 
-## Future Plans
+## Python Client
 
-- make the UI more usable
-- support UDP connection
-- support Bluetooth connection
-- bugfixes
+There is a 3rd party Python tool to capture data:
+[PhoneSensor](https://github.com/nup002/PhoneSensors).
 
 ## Author
 
